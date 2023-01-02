@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Easyexit</string>
+    <string name="login">Login</string>
+    <string name="user">User</string>
+    <string name="facalty">Faculty</string>
+    <string name="password">Password</string>
+    <string name="email_id">Email Id</string>
+    <string name="todo">TODO</string>
+    <string name="phone">phone</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="full_name">Full Name</string>
+    <string name="register">Register</string>
+    <string name="click_here_for_help">Click Here For Help</string>
+    <string name="forgot_password_reset_here">forgot password? reset here.</string>
+    <string name="user_name">User Name</string>
+    <string name="logout">Logout</string>
+    <string name="_21h51a05j5">21H51A05J5</string>
+    <string name="_21h51a05j5_cmrcet_ac_in">21h51a05j5@cmrcet.ac.in</string>
+    <string name="cse_d">CSE D</string>
+    <string name="permit">Permit</string>
+    <string name="back">Back</string>
+    <string name="enroll">Enroll</string>
+    <string name="roll_no">Roll No</string>
+    <string name="rollno">rollno</string>
+    <string name="reason">Reason</string>
+    <string name="number">number</string>
+    <string name="call">Call</string>
+    <string name="submit">Submit</string>
+    <string name="time">Time</string>
+    <string name="view_data">View Data</string>
+    <string name="list_view">List View</string>
+    <string name="request_data">Request Data</string>
+    <string name="details_list">Details List</string>
+    <string name="year">Year</string>
+    <string name="branch_section">Branch / Section</string>
+    <string name="easy_exit">Easy Exit</string>
+</resources>
