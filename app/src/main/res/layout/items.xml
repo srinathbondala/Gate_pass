@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_holder"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="170dp"
     android:layout_margin="5dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,52 +22,96 @@
                 android:id="@+id/dealId"
                 android:layout_width="200dp"
                 android:layout_height="52dp"
+                android:layout_marginTop="5dp"
                 android:padding="10dp"
-                android:text="sample"
+                android:text="@string/sample"
                 android:textSize="25sp"
-                app:layout_constraintBottom_toTopOf="@+id/description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/reason"
+                android:layout_width="400dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="2dp"
+                android:gravity="start"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:text="@string/reason"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reasontxt" />
+
+            <TextView
+                android:id="@+id/reasontxt"
+                android:layout_width="141dp"
+                android:layout_height="29dp"
+                android:paddingStart="10dp"
+                android:text="@string/reason1"
+                android:textColor="@color/teal_200"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toTopOf="@+id/reason"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dealId" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
-                android:padding="10dp"
-                android:text="sample"
+                android:padding="5dp"
+                android:text="@string/sample"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dealId" />
+                app:layout_constraintTop_toBottomOf="@+id/reason" />
 
             <TextView
                 android:id="@+id/status"
-                android:layout_width="150dp"
+                android:layout_width="160dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="2dp"
                 android:gravity="center"
-                android:padding="10sp"
-                android:text="Not Exiteded"
+                android:text="@string/not_exiteded"
                 android:textColor="@color/teal_200"
                 android:textSize="20sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/dealId"
                 app:layout_constraintTop_toBottomOf="@+id/approve"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/approve"
-                android:layout_width="140dp"
+                android:layout_width="160dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="32dp"
                 android:gravity="center"
+                android:text="@string/waiting"
                 android:textColor="@color/teal_200"
                 android:textSize="24sp"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/dealId"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="54dp"
+                android:layout_marginEnd="54dp"
+                android:text="@string/view_profile"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/description"
+                app:layout_constraintTop_toBottomOf="@+id/reason"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

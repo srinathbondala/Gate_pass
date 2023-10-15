@@ -69,7 +69,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void perforAuth() {
-       String a = phno.getText().toString();
+        String a = phno.getText().toString();
         String b = email.getText().toString();
         String c = pass.getText().toString();
         String d = name.getText().toString();

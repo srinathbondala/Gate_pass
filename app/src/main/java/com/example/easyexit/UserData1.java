@@ -9,6 +9,15 @@ public class UserData1 {
     private String Rollno;
     private String Year;
     private String Branch;
+    private String Facaltyno;
+
+    public String getFacaltyno() {
+        return Facaltyno;
+    }
+
+    public void setFacaltyno(String facaltyno) {
+        Facaltyno = facaltyno;
+    }
 
     public String getYear() {
         return Year;
@@ -26,7 +35,7 @@ public class UserData1 {
         Branch = branch;
     }
 
-    public UserData1(String name, String email, String phoneNumber, String password, String time, String rollno, String year, String branch) {
+    public UserData1(String name, String email, String phoneNumber, String password, String time, String rollno, String year, String branch,String facaltyno) {
         Name = name;
         Email = email;
         PhoneNumber = phoneNumber;
@@ -35,6 +44,7 @@ public class UserData1 {
         Rollno = rollno;
         Year = year;
         Branch = branch;
+        Facaltyno = facaltyno;
     }
 
     public String getTime() {

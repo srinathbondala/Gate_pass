@@ -1,6 +1,7 @@
 package com.example.easyexit;
 
 import static com.example.easyexit.User.flag;
+import static com.example.easyexit.Admin.bag;
 import static com.example.easyexit.login.tbranch;
 import static com.example.easyexit.login.temail;
 import static com.example.easyexit.login.tname;
@@ -97,12 +98,14 @@ public class security extends AppCompatActivity implements View.OnClickListener{
         }
         if(view == permitions)
         {
-            i = new Intent(getApplicationContext(),ViewData.class);
-            startActivity(i);
+            Toast.makeText(getApplicationContext(), "successfully logged out", Toast.LENGTH_LONG).show();
+           /* i = new Intent(getApplicationContext(),ViewData.class);
+            startActivity(i);*/
         }
         if(view == list)
         {
             flag = "false";
+            bag = "Approved";
             i = new Intent(getApplicationContext(),ViewData.class);
             startActivity(i);
         }

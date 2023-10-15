@@ -9,12 +9,16 @@ import static com.example.easyexit.login.tyear;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterViewFlipper;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,15 +34,19 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button user,admin,security1;
+    ImageView insta,google,whatsapp;
+    AdapterViewFlipper flipper_item1;
     TextView help;
     public static String a="";
     FirebaseUser muser;
     FirebaseDatabase mdata;
     DatabaseReference databaseReference;
+    int[] images ={R.drawable.img_12,R.drawable.cmric};
 
     public static String user_email="";
     Intent i;
     ProgressDialog p;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +55,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         admin = (Button) findViewById(R.id.facalty);
         security1 = (Button) findViewById(R.id.security1);
         help = (TextView) findViewById(R.id.textView3);
+        google = (ImageView)findViewById(R.id.google);
+        whatsapp = (ImageView)findViewById(R.id.whatsapp);
+        insta = (ImageView)findViewById(R.id.insta);
+        flipper_item1 = (AdapterViewFlipper) findViewById(R.id.flipper_item);
+        CustomAdapter customAdapter = new CustomAdapter(this,images);
+        flipper_item1.setAdapter(customAdapter);
+        flipper_item1.setFlipInterval(3000);
+        flipper_item1.setAutoStart(true);
 
         getSupportActionBar().hide();
         user.setOnClickListener(this);
         admin.setOnClickListener(this);
         help.setOnClickListener(this);
         security1.setOnClickListener(this);
+        insta.setOnClickListener(this);
+        google.setOnClickListener(this);
+        whatsapp.setOnClickListener(this);
         p= new ProgressDialog(this);
         FirebaseUser muser = FirebaseAuth.getInstance().getCurrentUser();
         if (muser != null) {
@@ -180,10 +199,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             i= new Intent(getApplicationContext(),login.class);
             startActivity(i);
         }
-        if(view == help) {
+        if(view == help || view == google) {
             i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://cmrcet.ac.in"));
             startActivity(i);
+        }
+        if(view == insta)
+        {
+            Uri uri = Uri.parse("http://instagram.com/cmrcet_official");
+            Intent i= new Intent(Intent.ACTION_VIEW,uri);
 
+            i.setPackage("com.instagram.android");
+
+            try {
+                startActivity(i);
+            } catch (ActivityNotFoundException e) {
+
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.instagram.com/cmrcet_official/?next=%2F")));
+
+            }
+        }
+        if(view == whatsapp)
+        {
+            Uri uri = Uri.parse("http://linkedin.com/cmrcetofficia");
+
+
+            Intent i= new Intent(Intent.ACTION_VIEW,uri);
+
+            i.setPackage("com.linkedin.android");
+
+            try {
+                startActivity(i);
+            } catch (ActivityNotFoundException e) {
+
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://in.linkedin.com/school/cmrcetofficial/?original_referer=https%3A%2F%2Fwww.bing.com%2F")));
+
+            }
         }
     }
 }

@@ -33,11 +33,11 @@ public class login extends AppCompatActivity implements View.OnClickListener {
 
     EditText email1,pass1;
     Button loginbt;
-    TextView text;
+    TextView text,title;
     String emailpatt="[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String emp = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+\\.+[a-z]+";
     Intent i;
-    public static String tname="",temail="",tbranch="",tphone="",tyear="";
+    public static String tname="",temail="",tbranch="",tphone="",tyear="",tfacaltyno="";
 
     FirebaseAuth mAuth;
     FirebaseUser muser;
@@ -54,6 +54,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
         getSupportActionBar().hide();
         email1 = (EditText) findViewById(R.id.logemail);
         pass1 = (EditText) findViewById(R.id.loginpass);
+        title = (TextView)findViewById(R.id.textView11);
         loginbt = (Button) findViewById(R.id.button);
         text = (TextView) findViewById(R.id.textView4);
         loginbt.setOnClickListener(this);
@@ -63,24 +64,36 @@ public class login extends AppCompatActivity implements View.OnClickListener {
         muser = mAuth.getCurrentUser();
         mdata = FirebaseDatabase.getInstance();
         databaseReference = mdata.getReference();
+        if(a.equals("admin1"))
+            title.setText("faculty");
+        else if(a.equals("user1"))
+                title.setText("User");
+        else if(a.equals("Security"))
+            title.setText("Security");
     }
 
     @Override
     public void onClick(View view) {
         if(view==text) {
-            p.setMessage("Please wait sending link...");
-            p.setTitle("Password reset");
-            p.setCanceledOnTouchOutside(false);
-            p.show();
-            FirebaseAuth.getInstance().sendPasswordResetEmail(email1.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(getApplicationContext(),"Check your Email",Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "password reset Link Sent", Toast.LENGTH_LONG).show();
-                    p.dismiss();
-                }
-            });
-
+            String email = email1.getText().toString();
+            if(!email.matches(emailpatt)&&!email.matches(emp))
+            {
+                email1.setError("Enter Context Email");
+            }
+            else {
+                p.setMessage("Please wait sending link...");
+                p.setTitle("Password reset");
+                p.setCanceledOnTouchOutside(false);
+                p.show();
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email1.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(), "Check your Email", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "password reset Link Sent", Toast.LENGTH_LONG).show();
+                        p.dismiss();
+                    }
+                });
+            }
         }
         if(view==loginbt)
         {
@@ -97,7 +110,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                 email1.setError("Enter Context Email");
             }
             else if(password.isEmpty()||password.length()<6) {
-                email1.setError("Enter Proper password");
+                pass1.setError("Enter Proper password");
             }
             else {
                 p.setMessage("Please wait Logging in");
@@ -123,6 +136,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                                                         tbranch = i1.getBranch();
                                                         tphone = i1.getPhoneNumber();
                                                         tyear = i1.getYear();
+                                                        tfacaltyno =i1.getFacaltyno();
                                                         p.dismiss();
                                                         Toast.makeText(getApplicationContext(), "Login Done", Toast.LENGTH_SHORT).show();
                                                         i = new Intent(getApplicationContext(), User.class);
@@ -160,7 +174,6 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                                                    finish();
                                                    startActivity(i);
                                                }
-                                               else Toast.makeText(getApplicationContext(), "failed to Login", Toast.LENGTH_SHORT).show();
                                            }
                                        }
                                        else  Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();

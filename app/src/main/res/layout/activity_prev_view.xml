@@ -2,12 +2,12 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cont4"
+    android:id="@+id/cont5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/image"
     android:padding="10dp"
-    tools:context=".requested">
+    tools:context=".prevView">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,9 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
-            android:text="Requested List"
+            android:text="@string/details_list"
             android:textColor="@color/black"
             android:textSize="34sp" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="49dp" />
 
         <SearchView
             android:id="@+id/search"

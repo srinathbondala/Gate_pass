@@ -134,7 +134,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="Branch "
+            android:text="@string/branch"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/yeart"
@@ -150,7 +150,7 @@
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="Branch / Section"
+            android:hint="@string/branch_section"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:minHeight="48dp"
@@ -166,13 +166,15 @@
             android:layout_width="78dp"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:text="Year"
+            android:text="@string/year"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/textView9"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/brancht" />
 
         <EditText
             android:id="@+id/year"
@@ -182,7 +184,7 @@
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="Year"
+            android:hint="@string/year"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:minHeight="48dp"
@@ -191,39 +193,42 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/yeart"
-            app:layout_constraintTop_toBottomOf="@+id/branch" />
+            app:layout_constraintTop_toBottomOf="@+id/branch"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="96dp"
             android:layout_height="45dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/reason"
             android:textColor="@color/black"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.024"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yeart" />
 
         <EditText
             android:id="@+id/editTextTextMultiLine"
-            android:layout_width="309dp"
-            android:layout_height="101dp"
+            android:layout_width="310dp"
+            android:layout_height="63dp"
             android:layout_marginStart="23dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="23dp"
-            android:background="@color/teal_200"
+            android:background="@color/white"
             android:ems="10"
             android:gravity="start|top"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:textColor="@color/black"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/submit2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.875"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
@@ -231,10 +236,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:background="@drawable/draw"
             android:text="@string/submit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

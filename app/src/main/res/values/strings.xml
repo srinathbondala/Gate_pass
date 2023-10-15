@@ -34,4 +34,16 @@
     <string name="year">Year</string>
     <string name="branch_section">Branch / Section</string>
     <string name="easy_exit">Easy Exit</string>
+    <string name="student">Student</string>
+    <string name="security">Security</string>
+    <string name="contact_admin">Contact Admin</string>
+    <string name="branch">Branch</string>
+    <string name="view_previous_data">View Previous data</string>
+    <string name="request">Request</string>
+    <string name="explore_data">Explore Data</string>
+    <string name="sample">sample</string>
+    <string name="reason1">Reason :</string>
+    <string name="not_exiteded">Not Exiteded</string>
+    <string name="view_profile">view profile</string>
+    <string name="waiting">waiting</string>
 </resources>

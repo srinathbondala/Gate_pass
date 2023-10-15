@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +30,10 @@ import java.util.List;
 
 public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder>{
 
+    static String no,rno,time,status,reason;
     ArrayList<UserData2> list;
     AlertDialog.Builder builder;
+    int cnt=0;
     long mill = System.currentTimeMillis();
 
     FirebaseDatabase mdata;
@@ -54,6 +57,7 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int i) {
         holder.id.setText(String.valueOf(list.get(i).getRollno()));
         holder.desc.setText(String.valueOf(list.get(i).getTime()));
+        holder.reason.setText("  "+String.valueOf(list.get(i).getReason()));
         mdata = FirebaseDatabase.getInstance();
         databaseReference = mdata.getReference().child("Out Data");
 
@@ -63,7 +67,6 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
             holder.approve.setText("Rejected");}
         else{
             holder.approve.setText("Waiting");}
-
 
         if(list.get(i).getOutTime()==null)
         {
@@ -78,7 +81,7 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
                 @Override
                 public void onClick(View view) {
 
-                    if (list.get(i).getStatus() == null || String.valueOf(list.get(i).getStatus()).equals("Rejected")|| String.valueOf(list.get(i).getStatus()).equals("Approved")) {
+                    if (String.valueOf(list.get(i).getStatus()).equals("waiting") || String.valueOf(list.get(i).getStatus()).equals("Rejected")|| String.valueOf(list.get(i).getStatus()).equals("Approved")) {
 
                         java.util.Date date1 = new java.util.Date();
                         ud = new UserData2();
@@ -99,7 +102,7 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
                             ud.setStatus("Approved");
                             databaseReference.child(String.valueOf(date)).child(list.get(i).getRollno()).setValue(ud);
                             holder.approve.setText("Approved");
-                            flag = "false";
+                            //flag = "false";
                         });
                         builder.setNegativeButton("NO", (DialogInterface.OnClickListener) (dialog, which) -> {
                             dialog.cancel();
@@ -114,11 +117,11 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
                 }
             });
         }
-        if(flag.equals("false")) {
+        if(flag.equals("false")){
             holder.status.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (list.get(i).getStatus() != null || String.valueOf(list.get(i).getStatus()).equals("Approved")) {
+                    if (String.valueOf(list.get(i).getStatus()).equals("Approved")) {
                         java.util.Date date1 = new java.util.Date();
                         ud = new UserData2();
 
@@ -156,7 +159,14 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
                 }
             });
         }
-
+        holder.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cnt=1;
+                Intent i = new Intent(view.getContext(),permission.class);
+                view.getContext().startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -165,7 +175,8 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView id,desc,status,approve;
+        TextView id,desc,status,approve,reason;
+        Button profile;
         @SuppressLint("SetTextI18n")
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -173,6 +184,8 @@ public class AdapterClass extends RecyclerView.Adapter<AdapterClass.MyViewHolder
             desc = itemView.findViewById(R.id.description);
             status = itemView.findViewById(R.id.status);
             approve = itemView.findViewById(R.id.approve);
+            reason = itemView.findViewById(R.id.reason);
+            profile = itemView.findViewById(R.id.profile);
         }
     }
 }

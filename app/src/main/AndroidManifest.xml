@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -14,16 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Easyexit"
+        android:largeHeap="true"
+        android:hardwareAccelerated="false"
         tools:targetApi="31">
         <activity
-            android:name=".security"
+            android:name=".prevView"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".requested"
+            android:name=".security"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

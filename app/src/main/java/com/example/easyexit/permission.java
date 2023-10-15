@@ -3,23 +3,31 @@ package com.example.easyexit;
 import static com.example.easyexit.MainActivity.user_email;
 import static com.example.easyexit.login.tbranch;
 import static com.example.easyexit.login.temail;
+import static com.example.easyexit.login.tfacaltyno;
 import static com.example.easyexit.login.tname;
 import static com.example.easyexit.login.tphone;
 import static com.example.easyexit.login.tyear;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 //import android.annotation.SuppressLint;
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.Permission;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,37 +75,17 @@ public class permission extends AppCompatActivity implements View.OnClickListene
         p= new ProgressDialog(this);
         ud = new UserData2();
         time.setText(String.valueOf(date1));
-        time.setEnabled(false);
 
-      /*  mdata = FirebaseDatabase.getInstance();
-        databaseReference = mdata.getReference();
-        databaseReference.child("User Information").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        UserData1 i1 = ds.getValue(UserData1.class);
-                        if (i1 != null && i1.getEmail().equals(user_email)) {
-                            a1 = i1.getEmail();
-                            a2 = i1.getName();
-                            a3 = i1.getBranch();
-                            a4 = i1.getPhoneNumber();
-                            a5 = i1.getYear();
-
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
         rollno.setText(tname);
         phno.setText(tphone);
         branch.setText(tbranch);
         year.setText(tyear);
+
+        time.setEnabled(false);
+        rollno.setEnabled(false);
+        phno.setEnabled(false);
+        branch.setEnabled(false);
+        year.setEnabled(false);
 
         getSupportActionBar().hide();
         back.setOnClickListener(this);
@@ -147,7 +135,8 @@ public class permission extends AppCompatActivity implements View.OnClickListene
             ud.setTime(b);
             ud.setReason(c);
             ud.setNumber(d);
-            ud.setStatus(null);
+            ud.setStatus("waiting");
+            ud.setOutTime(null);
 
             p.setMessage("Please wait uploading...");
             p.setTitle("Registration");
@@ -157,6 +146,18 @@ public class permission extends AppCompatActivity implements View.OnClickListene
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(getApplicationContext(),"Uploaded successfully",Toast.LENGTH_SHORT).show();
+                   /* try {
+                       // SmsManager smsManager = SmsManager.getDefault();
+                        String msg = "There is an Approval request for "+tname;
+                        String data5 = "8639439120";
+                        // smsManager.sendTextMessage(tfacaltyno,null,msg,null,null);}
+                      //  smsManager.sendTextMessage(data5, null, msg, null, null);
+                        Toast.makeText(getApplicationContext(), "Request message sent", Toast.LENGTH_SHORT).show();
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(getApplicationContext(),"Request message not sent due to "+e,Toast.LENGTH_SHORT).show();
+                    }*/
                     p.dismiss();
                     finish();
                 }

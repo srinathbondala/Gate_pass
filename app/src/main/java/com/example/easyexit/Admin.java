@@ -25,9 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 //import java.util.HashMap;
 
 public class Admin extends AppCompatActivity implements View.OnClickListener {
-
+    public static String bag = "";
     TextView Email,RollNo,Section,Logout,permit,lable;
-    ImageView iv,permitions,list;
+    ImageView iv,permitions,list,explore;
    // RecyclerView list;
     Intent i;
     FirebaseAuth mAuth;
@@ -49,6 +49,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         permit = (Button)findViewById(R.id.permition);
         iv = (ImageView) findViewById(R.id.imageView);
         list = (ImageView) findViewById(R.id.list);
+        explore = (ImageView)findViewById(R.id.exploredata);
         permitions = (ImageView) findViewById(R.id.permitions);
         getSupportActionBar().hide();
         p= new ProgressDialog(this);
@@ -56,36 +57,11 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         permit.setOnClickListener(this);
         list.setOnClickListener(this);
         permitions.setOnClickListener(this);
-
-    /*    mdata = FirebaseDatabase.getInstance();
-        databaseReference = mdata.getReference();
-        databaseReference.child("Faculty data").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        UserData1 i1 = ds.getValue(UserData1.class);
-                        if (i1 != null && i1.getEmail().equals(user_email)) {
-                            a1 = i1.getEmail();
-                            a2 = i1.getName();
-                            a3 = i1.getBranch();
-                            a4 = i1.getPhoneNumber();
-                            a5 = i1.getYear();
-                            Email.setText(a1);
-                            RollNo.setText(a2);
-                            Section.setText(a3);
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
+        explore.setOnClickListener(this);
         Email.setText(temail);
         RollNo.setText(tname);
         Section.setText(tbranch);
+        bag="";
     }
 
     @Override
@@ -109,13 +85,22 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         }
         if(view == permitions)
         {
-            i = new Intent(getApplicationContext(),requested.class);
+            bag= "waiting";
+            flag = "true";
+            i = new Intent(getApplicationContext(),ViewData.class);
             startActivity(i);
         }
         if(view == list)
         {
             flag = "true";
+            bag = "";
             i = new Intent(getApplicationContext(),ViewData.class);
+            startActivity(i);
+        }
+        if(view == explore)
+        {
+            bag = "mydata";
+            i =new Intent(Admin.this,prevView.class);
             startActivity(i);
         }
     }

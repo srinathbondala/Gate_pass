@@ -5,88 +5,74 @@
     android:id="@+id/cont1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_light"
+    android:background="@drawable/img_2"
     tools:context=".MainActivity">
+
+    <AdapterViewFlipper
+        android:id="@+id/flipper_item"
+        android:layout_width="350dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/Easy_Exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cmric" />
 
     <TextView
         android:id="@+id/Easy_Exit"
         android:layout_width="303dp"
         android:layout_height="79dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="@string/easy_exit"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="60sp"
+        android:textStyle="normal|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="205dp"
-        android:layout_height="162dp"
-        android:layout_marginTop="28dp"
-        android:contentDescription="@string/todo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Easy_Exit"
-        app:srcCompat="@drawable/lo" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="202dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/flipper_item" />
 
     <Button
         android:id="@+id/user"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/button_register"
-        android:text="Student"
+        android:text="@string/student"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/facalty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/security1" />
 
     <Button
         android:id="@+id/security1"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="81dp"
+        android:layout_marginBottom="6dp"
         android:background="@drawable/button_register"
-        android:text="Security"
+        android:text="@string/security"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/user"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/Easy_Exit" />
 
     <Button
         android:id="@+id/facalty"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/button_register"
         android:text="@string/facalty"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user" />
 
@@ -94,13 +80,50 @@
         android:id="@+id/textView3"
         android:layout_width="279dp"
         android:layout_height="37dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/click_here_for_help"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/facalty"
-        app:layout_constraintVertical_bias="0.233" />
+        app:layout_constraintTop_toBottomOf="@+id/facalty" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="215dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/insta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/todo"
+            app:srcCompat="@drawable/img_11" />
+
+        <ImageView
+            android:id="@+id/google"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/todo"
+            app:srcCompat="@drawable/img_7"
+            tools:ignore="ImageContrastCheck" />
+
+        <ImageView
+            android:id="@+id/whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/todo"
+            app:srcCompat="@drawable/img_10"
+            tools:ignore="ImageContrastCheck" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
