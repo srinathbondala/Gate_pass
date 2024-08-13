@@ -2,14 +2,12 @@ package com.example.easyexit;
 
 import static com.example.easyexit.Admin.bag;
 import static com.example.easyexit.login.tbranch;
-import static com.example.easyexit.login.temail;
 import static com.example.easyexit.login.tname;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,23 +15,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 public class User extends AppCompatActivity implements View.OnClickListener {
     TextView Email,RollNo,Section,View,view2;
-    ImageView iv,request,viewdata,mydata;
+    ImageView iv,request,viewdata,mydata,viewAttendance;
     Intent i;
     Button Logout;
     String a1,a2,a3,a4,a5;
     public static String flag="";
     public static String reqroll=" ";
-    FirebaseAuth mAuth;
-    FirebaseUser muser;
-    FirebaseDatabase mdata;
-    DatabaseReference databaseReference;
+//    FirebaseAuth mAuth;
+//    FirebaseUser muser;
+//    FirebaseDatabase mdata;
+//    DatabaseReference databaseReference;
     ProgressDialog p;
 
     @SuppressLint("MissingInflatedId")
@@ -45,12 +43,13 @@ public class User extends AppCompatActivity implements View.OnClickListener {
         RollNo = (TextView) findViewById(R.id.Roll_NO);
         Section = (TextView) findViewById(R.id.Section);
         Logout =(Button)findViewById(R.id.Logout);
-        iv = (ImageView) findViewById(R.id.imageView);
+        iv = (ImageView) findViewById(R.id.profile_icon);
         mydata = (ImageView)findViewById(R.id.mydata);
         request = (ImageView) findViewById(R.id.request);
         viewdata = (ImageView) findViewById(R.id.Viewdata);
         View = (TextView) findViewById(R.id.view);
         view2 = (TextView) findViewById(R.id.view2);
+        viewAttendance = (ImageView) findViewById(R.id.viewAttendance);
 
         getSupportActionBar().hide();
         Logout.setOnClickListener(this);
@@ -60,10 +59,23 @@ public class User extends AppCompatActivity implements View.OnClickListener {
         view2.setOnClickListener(this);
         mydata.setOnClickListener(this);
         request.setOnClickListener(this);
+        viewAttendance.setOnClickListener(this);
         p= new ProgressDialog(this);
-        Email.setText(temail);
-        RollNo.setText(tname);
-        Section.setText(tbranch);
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("userData", null);
+        UserData1 userData1 = gson.fromJson(userJson,UserData1.class);
+//        Email.setText(temail);
+//        RollNo.setText(tname);
+//        Section.setText(tbranch);
+        try {
+            Email.setText(userData1.getEmail());
+            RollNo.setText(userData1.getName());
+            Section.setText(userData1.getBranch());
+        }catch (Exception e){
+            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+            Section.setText(tbranch);
+        }
         reqroll = tname;
     }
     @Override
@@ -84,10 +96,11 @@ public class User extends AppCompatActivity implements View.OnClickListener {
        }
        if(view == viewdata || view == View)
        {
-          flag="";
+           flag="";
            bag= "my";
            Toast.makeText(getApplicationContext(), "viewData", Toast.LENGTH_SHORT).show();
            i=new Intent(User.this,ViewData.class);
+           i.putExtra("data","userdata");
            startActivity(i);
        }
        if(view == request || view == view2)
@@ -99,6 +112,9 @@ public class User extends AppCompatActivity implements View.OnClickListener {
        if(view == mydata)
        {
            Toast.makeText(getApplicationContext(), "settings", Toast.LENGTH_SHORT).show();
+       }
+       if(view == viewAttendance){
+           Toast.makeText(this, "Show User Attendance", Toast.LENGTH_SHORT).show();
        }
     }
 }

@@ -6,15 +6,14 @@ import static com.example.easyexit.login.tname;
 import static com.example.easyexit.login.tphone;
 import static com.example.easyexit.login.tyear;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
 import android.widget.Button;
@@ -22,17 +21,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    FirebaseFunctions firebaseFunctions;
     Button user,admin,security1;
     ImageView insta,google,whatsapp;
     AdapterViewFlipper flipper_item1;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user = (Button) findViewById(R.id.user);
         admin = (Button) findViewById(R.id.facalty);
         security1 = (Button) findViewById(R.id.security1);
-        help = (TextView) findViewById(R.id.textView3);
+        help = (TextView) findViewById(R.id.Easy_Exit);
         google = (ImageView)findViewById(R.id.google);
         whatsapp = (ImageView)findViewById(R.id.whatsapp);
         insta = (ImageView)findViewById(R.id.insta);
@@ -73,110 +73,131 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         google.setOnClickListener(this);
         whatsapp.setOnClickListener(this);
         p= new ProgressDialog(this);
+        firebaseFunctions = new FirebaseFunctions();
         FirebaseUser muser = FirebaseAuth.getInstance().getCurrentUser();
         if (muser != null) {
             p.setMessage("Please wait Checking For Login...");
             p.setTitle("Loading");
             p.setCanceledOnTouchOutside(false);
             p.show();
-        user_email = muser.getEmail();
-        mdata = FirebaseDatabase.getInstance();
-        databaseReference = mdata.getReference();
-        if(Objects.equals(a, "")) {
-            databaseReference.child("User Information").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            UserData1 i1 = ds.getValue(UserData1.class);
-                            if (i1 != null && i1.getEmail().equals(user_email)) {
-                                temail = i1.getEmail();
-                                tname = i1.getName();
-                                tbranch = i1.getBranch();
-                                tphone = i1.getPhoneNumber();
-                                tyear = i1.getYear();
-                                i = new Intent(getApplicationContext(), User.class);
-                                finish();
-                                startActivity(i);
-                                a = "finish";
-                                p.dismiss();
-                                break;
+            user_email = muser.getEmail();
+            mdata = FirebaseDatabase.getInstance();
+            databaseReference = mdata.getReference();
+            Gson gson = new Gson();
+            SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+            String userJson = sharedPreferences.getString("userData", null);
+            UserData1 userData1 = gson.fromJson(userJson,UserData1.class);
+            String userRole1 = sharedPreferences.getString("userRole", null);;
+            if(userData1==null){
+                try {
+                    if(Objects.equals(a,"")){
+                        firebaseFunctions.loginData("User Information", muser.getEmail(), new DataCallback() {
+                            @Override
+                            public void onDataFetched(UserData1 userData) {
+                                if(userData !=null){
+                                    i = new Intent(getApplicationContext(), User.class);
+                                    updateValues(userData,"User Information");
+                                    a = "finish";
+                                    p.dismiss();
+                                }
                             }
-                        }
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onError(String error) {
+                                Toast.makeText(getApplicationContext(), "No user found with the given email.", Toast.LENGTH_SHORT).show();
+                                p.dismiss();
+                            }
+                        });
+                    }
+                    if(!Objects.equals(a, "finish")){
+                        firebaseFunctions.loginData("Faculty data", muser.getEmail(), new DataCallback() {
+                            @Override
+                            public void onDataFetched(UserData1 userData) {
+                                if(userData!=null){
+                                    i = new Intent(getApplicationContext(), Admin.class);
+                                    updateValues(userData,"Faculty data");
+                                    a="not_Finished";
+                                    p.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                Toast.makeText(getApplicationContext(), "No user found with the given email.", Toast.LENGTH_SHORT).show();
+                                p.dismiss();
+                            }
+                        });
+                    }
+                    if(!Objects.equals(a, "not_Finished") && !Objects.equals(a, "finish")){
+                        firebaseFunctions.loginData("Security data", muser.getEmail(), new DataCallback() {
+                            @Override
+                            public void onDataFetched(UserData1 userData) {
+                                if(userData!=null){
+                                    i = new Intent(getApplicationContext(), security.class);
+                                    updateValues(userData,"Security data");
+                                    p.dismiss();
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "No user found with the given email.", Toast.LENGTH_SHORT).show();
+                                    p.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                Toast.makeText(getApplicationContext(), "No user found with the given email.", Toast.LENGTH_SHORT).show();
+                                p.dismiss();
+                            }
+                        });
+
+                    }
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
                     p.dismiss();
                 }
-            });
-        }
-            if(!Objects.equals(a, "finish")) {
-                databaseReference.child("Faculty data").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                UserData1 i1 = ds.getValue(UserData1.class);
-                                if (i1 != null && i1.getEmail().equals(user_email)) {
-                                    temail = i1.getEmail();
-                                    tname = i1.getName();
-                                    tbranch = i1.getBranch();
-                                    tphone = i1.getPhoneNumber();
-                                    tyear = i1.getYear();
-                                    i = new Intent(getApplicationContext(), Admin.class);
-                                    finish();
-                                    startActivity(i);
-                                    a="not_Finished";
-                                    p.dismiss();
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getApplicationContext(),""+error.getMessage(),Toast.LENGTH_SHORT).show();
-                        p.dismiss();
-                    }
-                });
             }
-            if(!Objects.equals(a, "not_Finished") && !Objects.equals(a, "finish"))
-            {
-                databaseReference.child("Security data").addListenerForSingleValueEvent(new ValueEventListener() {
+            else{
+                if(Objects.equals(userRole1, "Security data"))
+                    i = new Intent(getApplicationContext(),security.class);
+                else if(Objects.equals(userRole1, "User Information"))
+                    i = new Intent(getApplicationContext(), User.class);
+                else
+                    i = new Intent(getApplicationContext(),Admin.class);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                UserData1 i1 = ds.getValue(UserData1.class);
-                                if (i1 != null && i1.getEmail().equals(user_email)) {
-                                    temail = i1.getEmail();
-                                    tname = i1.getName();
-                                    tbranch = i1.getBranch();
-                                    tphone = i1.getPhoneNumber();
-                                    tyear = i1.getYear();
-                                    i = new Intent(getApplicationContext(), security.class);
-                                    finish();
-                                    startActivity(i);
-                                    a="not_Finished";
-                                    p.dismiss();
-                                    break;
-                                }
-                            }
-                        }
+                    public void run() {
+                        temail = userData1.getEmail();
+                        tname = userData1.getName();
+                        tbranch = userData1.getBranch();
+                        tphone = userData1.getPhoneNumber();
+                        tyear = userData1.getYear();
+                        startActivity(i);
+                        finish();
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getApplicationContext(),""+error.getMessage(),Toast.LENGTH_SHORT).show();
-                        p.dismiss();
-                    }
-                });
+                }, 2000);
             }
         }
     }
 
+    private void updateValues(UserData1 resultData,String role){
+        if(resultData!=null) {
+            Gson gson = new Gson();
+            SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+            String userVal = gson.toJson(resultData);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("userData", userVal);
+            editor.putString("userRole",role);
+            editor.apply();
+            temail = resultData.getEmail();
+            tname = resultData.getName();
+            tbranch = resultData.getBranch();
+            tphone = resultData.getPhoneNumber();
+            tyear = resultData.getYear();
+            finish();
+            startActivity(i);
+        }
+    }
     @Override
     public void onClick(View view) {
         if(view == user)

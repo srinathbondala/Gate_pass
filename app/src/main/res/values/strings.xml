@@ -6,7 +6,7 @@
     <string name="password">Password</string>
     <string name="email_id">Email Id</string>
     <string name="todo">TODO</string>
-    <string name="phone">phone</string>
+    <string name="phone">phone :</string>
     <string name="sign_up">Sign Up</string>
     <string name="full_name">Full Name</string>
     <string name="register">Register</string>
@@ -20,24 +20,24 @@
     <string name="permit">Permit</string>
     <string name="back">Back</string>
     <string name="enroll">Enroll</string>
-    <string name="roll_no">Roll No</string>
+    <string name="roll_no">Roll No :</string>
     <string name="rollno">rollno</string>
     <string name="reason">Reason</string>
     <string name="number">number</string>
     <string name="call">Call</string>
     <string name="submit">Submit</string>
-    <string name="time">Time</string>
+    <string name="time">Time :</string>
     <string name="view_data">View Data</string>
     <string name="list_view">List View</string>
-    <string name="request_data">Request Data</string>
+    <string name="request_data">Requested Data</string>
     <string name="details_list">Details List</string>
-    <string name="year">Year</string>
+    <string name="year">Year :</string>
     <string name="branch_section">Branch / Section</string>
     <string name="easy_exit">Easy Exit</string>
     <string name="student">Student</string>
     <string name="security">Security</string>
     <string name="contact_admin">Contact Admin</string>
-    <string name="branch">Branch</string>
+    <string name="branch">Branch :</string>
     <string name="view_previous_data">View Previous data</string>
     <string name="request">Request</string>
     <string name="explore_data">Explore Data</string>
@@ -46,4 +46,8 @@
     <string name="not_exiteded">Not Exiteded</string>
     <string name="view_profile">view profile</string>
     <string name="waiting">waiting</string>
+    <string name="events_activities"><![CDATA[Events & Activities​]]></string>
+    <string name="roll_number">Roll Number</string>
+    <string name="user_dashbord">User Dashbord</string>
+    <string name="report">Generate Report</string>
 </resources>

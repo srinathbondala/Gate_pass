@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
-    EditText name,phno,email,pass,section,ryear;
+    EditText name,phno,email,pass,section,ryear,rollnumber;
     Button bt;
     Intent i;
     ProgressDialog p;
@@ -46,6 +46,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         pass=(EditText) findViewById(R.id.Password1);
         ryear=(EditText) findViewById(R.id.ryear);
         section=(EditText) findViewById(R.id.section);
+        rollnumber = (EditText) findViewById(R.id.rollno);
         bt = (Button) findViewById(R.id.submit1);
         getSupportActionBar().hide();
         bt.setOnClickListener(this);
@@ -75,6 +76,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         String d = name.getText().toString();
         String e = section.getText().toString();
         String f = ryear.getText().toString();
+        String g = rollnumber.getText().toString();
         // String user=ud.getName();
         if(!b.matches(emailPat)&&!b.matches(emp))
         {
@@ -92,6 +94,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             email.setError("enter year");
         else if(c.equals("")||c.length()<6)
             pass.setError("enter valid password");
+        else if(g.isEmpty())
+            rollnumber.setError("enter roll number");
         else
         {
             ud.setPhoneNumber(a);
@@ -100,6 +104,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             ud.setName(d);
             ud.setBranch(e);
             ud.setYear(f);
+            ud.setRollno(g);
             p.setMessage("Please wait Registering...");
             p.setTitle("Registration");
             p.setCanceledOnTouchOutside(false);

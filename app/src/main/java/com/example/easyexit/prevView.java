@@ -2,13 +2,8 @@ package com.example.easyexit;
 
 import static com.example.easyexit.Admin.bag;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +32,8 @@ import java.util.Objects;
 
 public class prevView extends AppCompatActivity {
     Spinner spinner;
-    String[] dateValue={"2023-01-05","2023-01-06","2023-01-08","2023-01-09","2023-01-11","2023-01-12"};
+//    String[] dateValue={"2023-01-05","2023-01-06","2023-01-08","2023-01-09","2023-01-11","2023-01-12"};
+    String[] dateValue={"1","2","3","4","5","6"};
     ArrayList<UserData2> lists;
     ArrayList<UserData2> lists1;
     AdapterClass adapterClass;
@@ -48,6 +50,7 @@ public class prevView extends AppCompatActivity {
     DatabaseReference databaseReference;
     java.sql.Date date;
     String date1;
+    ProgressDialog p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class prevView extends AppCompatActivity {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.cont5);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(this));
+        p= new ProgressDialog(this);
         getSupportActionBar().hide();
         lists = new ArrayList<>();
         lists1 = new ArrayList<>();
@@ -67,10 +71,14 @@ public class prevView extends AppCompatActivity {
         list.setAdapter(adapterClass);
         mdata = FirebaseDatabase.getInstance();
         databaseReference = mdata.getReference().child("Out Data");
+        p.setMessage("Please wait uploading...");
+        p.setTitle("Registration");
+        p.setCanceledOnTouchOutside(false);
+        p.show();
       try{
           js=1;
           databaseReference.addValueEventListener(valueEventListener);
-          query= mdata.getReference().child("Out Data").limitToLast(6).addValueEventListener(new ValueEventListener() {
+          query= databaseReference.limitToLast(6).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
@@ -82,9 +90,12 @@ public class prevView extends AppCompatActivity {
                                j++;
                            }
                         }
+                        arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, dateValue);
+                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+                        spinner.setAdapter(arrayAdapter);
                     }
                 }
-                catch (Exception e) { Toast.makeText(getApplicationContext(),"error occurred",Toast.LENGTH_SHORT).show();}
+                catch (Exception e) { Toast.makeText(getApplicationContext(),""+e,Toast.LENGTH_SHORT).show();}
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -93,15 +104,15 @@ public class prevView extends AppCompatActivity {
         });}
       catch (Exception e)
       {
-          Toast.makeText(getApplicationContext(),"error occurred  "+e,Toast.LENGTH_SHORT).show();
+          Toast.makeText(getApplicationContext(),""+e,Toast.LENGTH_SHORT).show();
       }
+//        Query query;
+//        query = mdata.getReference().child("Out Data").child(String.valueOf(dateValue[0]));
+//        query.addListenerForSingleValueEvent(valueEventListener);
         long millis = System.currentTimeMillis();
         date = new java.sql.Date(millis);
         date1 = String.valueOf(date);
         try {
-            arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, dateValue);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-            spinner.setAdapter(arrayAdapter);
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -133,6 +144,7 @@ public class prevView extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+        p.dismiss();
     }
 
     @Override
@@ -143,7 +155,7 @@ public class prevView extends AppCompatActivity {
         {
             try{
                 lists.clear();
-                query = mdata.getReference().child("Out Data").child(String.valueOf(date1));
+                query = mdata.getReference().child("Out Data").child(String.valueOf(dateValue[0]));//.child(String.valueOf(date1));
                 query.addListenerForSingleValueEvent(valueEventListener);}
             catch (Exception e){
                 Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_LONG).show(); }
@@ -172,7 +184,7 @@ public class prevView extends AppCompatActivity {
         }
     }
     ValueEventListener valueEventListener = new ValueEventListener() {
-        @SuppressLint("NotifyDataSetChanged")
+        @SuppressLint({"NotifyDataSetChanged", "UseCompatLoadingForDrawables"})
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot){
             lists.clear();
@@ -182,10 +194,13 @@ public class prevView extends AppCompatActivity {
                                 UserData2 i = ds.getValue(UserData2.class);
                                 lists.add(i);
                             }
+                            if(lists.isEmpty()){
+                                list.setBackground(getDrawable(R.drawable.help));
+                            }
                             adapterClass.notifyDataSetChanged();
                         }
                     } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "error occurred", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_SHORT).show();
                     }
                 }
 

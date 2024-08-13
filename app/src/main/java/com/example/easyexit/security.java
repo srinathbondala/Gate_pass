@@ -8,7 +8,6 @@ import static com.example.easyexit.login.tname;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,9 +43,9 @@ public class security extends AppCompatActivity implements View.OnClickListener{
         RollNo = (TextView) findViewById(R.id.Roll_NO);
         Section = (TextView) findViewById(R.id.Section);
         Logout = (Button) findViewById(R.id.Logout);
-        iv = (ImageView) findViewById(R.id.imageView);
+        iv = (ImageView) findViewById(R.id.profile_icon);
         list = (ImageView) findViewById(R.id.list);
-        permitions = (ImageView) findViewById(R.id.permitions);
+        permitions = (ImageView) findViewById(R.id.attedance);
         getSupportActionBar().hide();
         p = new ProgressDialog(this);
         Logout.setOnClickListener(this);

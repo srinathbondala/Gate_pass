@@ -1,5 +1,7 @@
 package com.example.easyexit;
 
+import java.util.List;
+
 public class UserData1 {
     private String Name;
     private String Email;
@@ -10,6 +12,8 @@ public class UserData1 {
     private String Year;
     private String Branch;
     private String Facaltyno;
+
+    private List<Acadamic_Info> info;
 
     public String getFacaltyno() {
         return Facaltyno;

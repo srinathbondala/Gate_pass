@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profile_icon"
         android:layout_width="117dp"
         android:layout_height="118dp"
         android:layout_marginTop="25dp"
@@ -130,7 +130,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/permitions" />
+                app:layout_constraintTop_toBottomOf="@+id/attedance" />
 
             <TextView
                 android:id="@+id/view3"
@@ -148,7 +148,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/list" />
 
             <ImageView
-                android:id="@+id/permitions"
+                android:id="@+id/attedance"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="20dp"
