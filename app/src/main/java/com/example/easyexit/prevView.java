@@ -4,16 +4,19 @@ import static com.example.easyexit.Admin.bag;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -48,9 +51,11 @@ public class prevView extends AppCompatActivity {
     FirebaseUser muser;
     FirebaseDatabase mdata;
     DatabaseReference databaseReference;
+    ImageView imageView;
     java.sql.Date date;
     String date1;
     ProgressDialog p;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +68,19 @@ public class prevView extends AppCompatActivity {
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(this));
         p= new ProgressDialog(this);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
+        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         lists = new ArrayList<>();
         lists1 = new ArrayList<>();
-        adapterClass = new AdapterClass(lists);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        role = sharedPreferences.getString("userRole", null);
+        adapterClass = new AdapterClass(lists,getApplicationContext(),role,false);
         ArrayAdapter<UserData2> adapter = new ArrayAdapter<UserData2>(prevView.this, R.layout.items, lists);
         list.setAdapter(adapterClass);
         mdata = FirebaseDatabase.getInstance();
@@ -90,8 +104,8 @@ public class prevView extends AppCompatActivity {
                                j++;
                            }
                         }
-                        arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, dateValue);
-                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+                        arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, dateValue);
+                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(arrayAdapter);
                     }
                 }
@@ -183,6 +197,13 @@ public class prevView extends AppCompatActivity {
             });
         }
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+    }
+
     ValueEventListener valueEventListener = new ValueEventListener() {
         @SuppressLint({"NotifyDataSetChanged", "UseCompatLoadingForDrawables"})
         @Override
@@ -195,7 +216,8 @@ public class prevView extends AppCompatActivity {
                                 lists.add(i);
                             }
                             if(lists.isEmpty()){
-                                list.setBackground(getDrawable(R.drawable.help));
+                                list.setBackground(ContextCompat.getDrawable(prevView.this, R.drawable.help));
+
                             }
                             adapterClass.notifyDataSetChanged();
                         }
@@ -212,21 +234,35 @@ public class prevView extends AppCompatActivity {
 
 
     private void search(String s) {
+//        ArrayList<UserData2> mylist = new ArrayList<>();
+//        /*if (Objects.equals(bag, "waiting")) {
+//            for (UserData2 object : lists1) {
+//                if (object.getRollno().toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT))) {
+//                    mylist.add(object);
+//                }
+//            }
+//        }
+//        else {*/
+//        for (UserData2 object : lists) {
+//            if (object.getRollno().toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT))) {
+//                mylist.add(object);
+//            }
+//        }
+//        AdapterClass adapterClass = new AdapterClass(mylist);
+//        list.setAdapter(adapterClass);
         ArrayList<UserData2> mylist = new ArrayList<>();
-        /*if (Objects.equals(bag, "waiting")) {
-            for (UserData2 object : lists1) {
-                if (object.getRollno().toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT))) {
-                    mylist.add(object);
-                }
-            }
-        }
-        else {*/
         for (UserData2 object : lists) {
             if (object.getRollno().toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT))) {
                 mylist.add(object);
             }
         }
-        AdapterClass adapterClass = new AdapterClass(mylist);
-        list.setAdapter(adapterClass);
+        adapterClass.updateList(mylist);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (query != null) {
+            databaseReference.removeEventListener(query);
+        }
     }
 }

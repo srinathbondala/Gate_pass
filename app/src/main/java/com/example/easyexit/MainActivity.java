@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FirebaseUser muser;
     FirebaseDatabase mdata;
     DatabaseReference databaseReference;
+    private RecyclerView recyclerView;
+    private ArrayList<notification_data> data;
+    private notificationAdapter adapterClass;
     int[] images ={R.drawable.img_12,R.drawable.cmric};
 
     public static String user_email="";
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         flipper_item1.setAdapter(customAdapter);
         flipper_item1.setFlipInterval(3000);
         flipper_item1.setAutoStart(true);
+        recyclerView = findViewById(R.id.events_recyclerView);
 
         getSupportActionBar().hide();
         user.setOnClickListener(this);
@@ -178,6 +185,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }, 2000);
             }
         }
+        else{
+            loadNotifications();
+        }
+    }
+
+    private void loadNotifications() {
+        FirebaseFunctions firebaseFunctions = new FirebaseFunctions();
+        firebaseFunctions.loadGlobalNotifications(this, new FirebaseDataCallback() {
+            @Override
+            public void onDataFetched(ArrayList<notification_data> data) {
+                if (data != null && !data.isEmpty()) {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    adapterClass = new notificationAdapter(data,getApplicationContext());
+                    recyclerView.setAdapter(adapterClass);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No notifications found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void updateValues(UserData1 resultData,String role){

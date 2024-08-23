@@ -1,12 +1,13 @@
 package com.example.easyexit;
 
-import static com.example.easyexit.Admin.bag;
 import static com.example.easyexit.User.reqroll;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class ViewData extends AppCompatActivity {
     ArrayList<UserData2> lists,rejList,waitList;
     AdapterClass adapterClass,reject_adapter,waiting_adapter;
     SearchView search;
+    ImageView imageView;
     RecyclerView list,reject_list,waiting_list;
 //    SwipeRefreshLayout swipeRefreshLayout;
     UserData2 ud;
@@ -42,6 +44,7 @@ public class ViewData extends AppCompatActivity {
     FirebaseDatabase mdata;
     DatabaseReference databaseReference;
     java.sql.Date date;
+    private String userRole;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -52,6 +55,13 @@ public class ViewData extends AppCompatActivity {
         list = (RecyclerView) findViewById(R.id.recycle);
         reject_list = (RecyclerView) findViewById(R.id.reject_recycle);
         waiting_list = (RecyclerView) findViewById(R.id.waiting_recycle);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 //        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.cont4);
         p= new ProgressDialog(this);
         p.setMessage("Please Wait Loading Data");
@@ -68,9 +78,12 @@ public class ViewData extends AppCompatActivity {
         lists = new ArrayList<>();
         rejList = new ArrayList<>();
         waitList = new ArrayList<>();
-        reject_adapter = new AdapterClass(rejList);
-        waiting_adapter = new AdapterClass(waitList);
-        adapterClass = new AdapterClass(lists);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        userRole = sharedPreferences.getString("userRole", null);
+
+        reject_adapter = new AdapterClass(rejList,getApplicationContext(),userRole,true);
+        waiting_adapter = new AdapterClass(waitList,getApplicationContext(),userRole,true);
+        adapterClass = new AdapterClass(lists,getApplicationContext(),userRole,true);
         list.setAdapter(adapterClass);
         waiting_list.setAdapter(waiting_adapter);
         reject_list.setAdapter(reject_adapter);
@@ -94,39 +107,44 @@ public class ViewData extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Query query;
-        if(Objects.equals(bag, "my"))
+        if(Objects.equals(getIntent().getStringExtra("data"), "userdata"))
         {
-            waiting_list.setVisibility(View.GONE);
-            reject_list.setVisibility(View.GONE);
-            TextView textView = findViewById(R.id.textView16);
-            textView.setText("View Status");
-            lists.clear();
-            query = mdata.getReference().child("Out Data").child(String.valueOf(date)).orderByChild("rollno").equalTo(String.valueOf(reqroll));
-            query.addListenerForSingleValueEvent(valueEventListener);
+            try{
+                waiting_list.setVisibility(View.GONE);
+                reject_list.setVisibility(View.GONE);
+                TextView textView = findViewById(R.id.textView16);
+                TextView textView1 = findViewById(R.id.textView18);
+                TextView textView2 = findViewById(R.id.textView19);
+                textView1.setVisibility(View.INVISIBLE);
+                textView2.setVisibility(View.INVISIBLE);
+                textView.setText("View Status");
+                lists.clear();
+                query = mdata.getReference().child("Out Data").child(String.valueOf(date)).orderByChild("rollno").equalTo(String.valueOf(reqroll));
+                //"2023-01-05"
+                query.addListenerForSingleValueEvent(valueEventListener);
+            }
+            catch (Exception e){
+                Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_LONG).show(); p.dismiss();}
         }
-//        else if(Objects.equals(bag, "waiting"))
-//        {
-//            lists.clear();
-//            query = mdata.getReference().child("Out Data").child(String.valueOf(date)).orderByChild("status").equalTo("waiting");
-//            query.addListenerForSingleValueEvent(valueEventListener);
-//
-//        }
-        else if(Objects.equals(bag, "Approved"))
-        {
+        else if(Objects.equals(getIntent().getStringExtra("data"), "AdminData")) {
             lists.clear();
             query = mdata.getReference().child("Out Data").child(String.valueOf(date));//.orderByChild("status").equalTo("Approved");
 //            query.addListenerForSingleValueEvent(valueEventListener);
             query.addListenerForSingleValueEvent(getDataEvent);
         }
-        else if(Objects.equals(bag, "mydata"))
-        {
-            try{
-                lists.clear();
-                query = mdata.getReference().child("Out Data").child("2023-01-05").orderByChild("rollno").equalTo(String.valueOf(reqroll));
-                query.addListenerForSingleValueEvent(valueEventListener);
-            }
-            catch (Exception e){
-                Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_LONG).show(); p.dismiss();}
+        else if(Objects.equals(getIntent().getStringExtra("data"), "securityData")){
+            lists.clear();
+            waiting_list.setVisibility(View.GONE);
+            reject_list.setVisibility(View.GONE);
+            TextView textView = findViewById(R.id.textView16);
+            TextView textView1 = findViewById(R.id.textView18);
+            TextView textView2 = findViewById(R.id.textView19);
+            textView1.setVisibility(View.INVISIBLE);
+            textView2.setVisibility(View.INVISIBLE);
+            textView.setText("Out Data");
+            query = mdata.getReference().child("Out Data").child(String.valueOf(date)).orderByChild("status").equalTo("Approved");
+//            query.addListenerForSingleValueEvent(valueEventListener);
+            query.addListenerForSingleValueEvent(valueEventListener);
         }
         else {
             try{
@@ -154,6 +172,12 @@ public class ViewData extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+    }
+
     ValueEventListener getDataEvent = new ValueEventListener() {
         @SuppressLint("NotifyDataSetChanged")
         @Override
@@ -176,15 +200,15 @@ public class ViewData extends AppCompatActivity {
                     }
                 }
                 if(lists.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "No Approval data available", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "No Approval data available", Toast.LENGTH_LONG).show();
                     list.setBackground(ContextCompat.getDrawable(ViewData.this,R.drawable.no_data));
                 }
                 if (rejList.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "No Rejection data available", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "No Rejection data available", Toast.LENGTH_LONG).show();
                     reject_list.setBackground(ContextCompat.getDrawable(ViewData.this,R.drawable.no_data));
                 }
                 if(waitList.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "No Waiting data available", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "No Waiting data available", Toast.LENGTH_LONG).show();
                     waiting_list.setBackground(ContextCompat.getDrawable(ViewData.this,R.drawable.no_data));
                 }
                 adapterClass.notifyDataSetChanged();
@@ -250,7 +274,7 @@ public class ViewData extends AppCompatActivity {
                     mylist.add(object);
                 }
             }
-        AdapterClass adapterClass = new AdapterClass(mylist);
+        AdapterClass adapterClass = new AdapterClass(mylist,getApplicationContext(),userRole,true);
         list.setAdapter(adapterClass);
     }
 }

@@ -50,4 +50,6 @@
     <string name="roll_number">Roll Number</string>
     <string name="user_dashbord">User Dashbord</string>
     <string name="report">Generate Report</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

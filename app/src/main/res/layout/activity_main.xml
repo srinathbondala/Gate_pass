@@ -52,9 +52,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:backgroundTint="@color/white"
-        app:cardCornerRadius="16dp"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +72,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="10dp"
                     android:backgroundTint="@color/white"
                     app:cardCornerRadius="16dp">
 
@@ -87,7 +85,7 @@
                             android:id="@+id/flipper_item"
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
-                            android:layout_margin="6dp"
+                            android:layout_margin="8dp"
                             app:srcCompat="@drawable/cmric" />
 
                     </LinearLayout>
@@ -98,7 +96,7 @@
                     android:id="@+id/constraintLayout7"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="60dp"
                     android:background="@drawable/oneside_curve"
                     android:padding="10dp">
 
@@ -126,23 +124,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:fontFamily="serif"
-                        android:text="Login As"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        app:layout_constraintBottom_toTopOf="@+id/facalty"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                     <Button
                         android:id="@+id/user"
@@ -176,6 +157,7 @@
                         android:id="@+id/facalty"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/button_register"
                         android:backgroundTint="@color/purple_700"
@@ -184,7 +166,8 @@
                         android:textSize="20sp"
                         app:layout_constraintBottom_toTopOf="@+id/user"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout9"
@@ -199,7 +182,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="8dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -208,6 +190,7 @@
                                 android:id="@+id/events_heading"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
                                 android:text="@string/events_activities"
                                 android:textColor="@color/black" />
 

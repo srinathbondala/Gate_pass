@@ -1,24 +1,60 @@
 package com.example.easyexit;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 
-public class Attendance extends AppCompatActivity {
+import java.util.Objects;
 
+public class Attendance extends AppCompatActivity implements View.OnClickListener {
+
+    private TextView qr_code,lit_qr,details,lit_details;
+    ImageView back_menue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_attendance);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        Objects.requireNonNull(getSupportActionBar()).hide();
+        qr_code= findViewById(R.id.user_qr_code);
+        lit_qr = findViewById(R.id.lit_qr);
+        details = findViewById(R.id.user_details);
+        lit_details = findViewById(R.id.lit_details);
+        back_menue = findViewById(R.id.back_menue);
+        qr_code.setOnClickListener(this);
+        details.setOnClickListener(this);
+        back_menue.setOnClickListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_profile, new Acadamic()).commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==back_menue){
+            finish();
+        }
+        if(v==qr_code)
+        {
+            qr_code.setTextColor(Color.parseColor("#00ddff"));
+            lit_qr.setBackgroundColor(Color.parseColor("#00ddff"));
+            details.setTextColor(Color.parseColor("#000000"));
+            lit_details.setBackgroundColor(0);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.swipe_in_left, R.anim.swipe_out_right);
+            transaction.replace(R.id.main_profile, new Acadamic()).addToBackStack(null).commit();
+        }
+        if(v==details)
+        {
+            details.setTextColor(Color.parseColor("#00ddff"));
+            lit_details.setBackgroundColor(Color.parseColor("#00ddff"));
+            qr_code.setTextColor(Color.parseColor("#000000"));
+            lit_qr.setBackgroundColor(0);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.swipe_in_left, R.anim.swipe_out_right);
+            transaction.replace(R.id.main_profile, new permission_data()).addToBackStack(null).commit();
+        }
     }
 }

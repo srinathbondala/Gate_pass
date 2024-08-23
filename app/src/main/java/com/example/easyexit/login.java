@@ -66,7 +66,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
         mdata = FirebaseDatabase.getInstance();
         databaseReference = mdata.getReference();
         if(a.equals("admin1"))
-            title.setText("faculty");
+            title.setText("Faculty");
         else if(a.equals("user1"))
                 title.setText("User");
         else if(a.equals("Security"))

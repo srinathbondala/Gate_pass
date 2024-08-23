@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ihfnlpbze7o01"
+    tools:context=".profile">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout20"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/setting_profile_image"
+        android:layout_width="160dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/web"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout20" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="388dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/logoutbt"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="35dp"
+                    android:background="@drawable/draw"
+                    android:text="@string/logout"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/year1" />
+
+                <EditText
+                    android:id="@+id/name1"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/black"
+                    android:ems="10"
+                    android:hint="@string/roll_number"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.495"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/email1"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="@color/black"
+                    android:ems="10"
+                    android:hint="@string/email_id"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.508"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name1"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/address1"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="@color/black"
+                    android:ems="10"
+                    android:hint="Address"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.508"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/email1"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/phno1"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="@color/black"
+                    android:ems="10"
+                    android:hint="@string/phone"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.508"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/address1"
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/department"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="@color/black"
+                    android:ems="10"
+                    android:hint="Branch"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.508"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phno1"
+                    tools:ignore="TextContrastCheck,SpeakableTextPresentCheck" />
+
+                <EditText
+                    android:id="@+id/year1"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="@color/black"
+                    android:ems="10"
+                    android:hint="@string/year"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.491"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/department"
+                    tools:ignore="TextContrastCheck" />
+
+                <Button
+                    android:id="@+id/submit1"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="50dp"
+                    android:layout_marginBottom="35dp"
+                    android:background="@drawable/draw"
+                    android:text="Edit"
+                    android:textSize="16sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/logoutbt"
+                    app:layout_constraintTop_toBottomOf="@+id/year1"
+                    tools:ignore="TextContrastCheck" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="420px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/wight_back"
+        android:padding="8px"
+        android:text="Change Image"
+        android:textAlignment="center"
+        android:textColor="@color/material_dynamic_primary60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_profile_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

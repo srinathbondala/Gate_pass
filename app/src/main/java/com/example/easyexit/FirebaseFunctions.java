@@ -1,5 +1,9 @@
 package com.example.easyexit;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -8,6 +12,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class FirebaseFunctions {
     FirebaseDatabase mdata;
@@ -40,6 +46,101 @@ public class FirebaseFunctions {
                 callback.onError("Error occurred while fetching data: " + error.getMessage());
             }
         });
+    }
+
+    ArrayList<notification_data> data;
+    String userName="";
+    public void loadNotifications(String name, Context context,FirebaseDataCallback callback) {
+        try {
+            mdata = FirebaseDatabase.getInstance();
+            data = new ArrayList<>();
+            Query query = mdata.getReference().child("Notification");
+
+            // Set the value event listener
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    data.clear();
+                    try {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            String key = ds.getKey();
+                            if (key != null) {
+                                if (key.equals("Global")) {
+                                    for (DataSnapshot notificationSnapshot : ds.getChildren()) {
+                                        notification_data i = notificationSnapshot.getValue(notification_data.class);
+                                        if (i != null) {
+                                            data.add(i);
+                                        }
+                                    }
+                                } else if (key.equals("Local")) {
+                                    for (DataSnapshot notificationSnapshot : ds.getChildren()) {
+                                        notification_data i = notificationSnapshot.getValue(notification_data.class);
+                                        if (i != null && i.getFaculty() != null && i.getFaculty().equalsIgnoreCase(userName)) {
+                                            data.add(i);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        callback.onDataFetched(data);
+                    } catch (Exception e) {
+                        Log.d("error", "" + e.getMessage());
+                        callback.onDataFetched(data);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    callback.onDataFetched(data);
+                }
+            });
+
+        } catch (Exception e) {
+            Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            callback.onDataFetched(data);
+        }
+    }
+
+    ArrayList<notification_data> data1;
+    public void loadGlobalNotifications( Context context,FirebaseDataCallback callback) {
+        try {
+            mdata = FirebaseDatabase.getInstance();
+            data1 = new ArrayList<>();
+            Query query = mdata.getReference().child("Notification").child("Global");
+
+            // Set the value event listener
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    data1.clear();
+                    try {
+                        if(snapshot.exists()) {
+                            for (DataSnapshot notificationSnapshot : snapshot.getChildren()) {
+                                notification_data i = notificationSnapshot.getValue(notification_data.class);
+                                if (i != null) {
+                                    data1.add(i);
+                                }
+                            }
+                        }
+                        callback.onDataFetched(data1);
+                    } catch (Exception e) {
+                        Log.d("error", "" + e.getMessage());
+                        callback.onDataFetched(data1);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    callback.onDataFetched(data1);
+                }
+            });
+
+        } catch (Exception e) {
+            Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            callback.onDataFetched(data1);
+        }
     }
 }
 

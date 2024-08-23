@@ -12,8 +12,11 @@ public class UserData1 {
     private String Year;
     private String Branch;
     private String Facaltyno;
+    private String Faculty;
+    private String Address;
 
     private List<Acadamic_Info> info;
+    private List<String> students_list;
 
     public String getFacaltyno() {
         return Facaltyno;
@@ -39,7 +42,7 @@ public class UserData1 {
         Branch = branch;
     }
 
-    public UserData1(String name, String email, String phoneNumber, String password, String time, String rollno, String year, String branch,String facaltyno) {
+    public UserData1(String name, String email, String phoneNumber, String password, String time, String rollno, String year, String branch, String facaltyno, String address) {
         Name = name;
         Email = email;
         PhoneNumber = phoneNumber;
@@ -49,6 +52,7 @@ public class UserData1 {
         Year = year;
         Branch = branch;
         Facaltyno = facaltyno;
+        Address = address;
     }
 
     public String getTime() {
@@ -70,6 +74,21 @@ public class UserData1 {
     public UserData1() {
     }
 
+    public String getFaculty() {
+        return Faculty;
+    }
+
+    public void setFaculty(String faculty) {
+        Faculty = faculty;
+    }
+
+    public void setAddress(String address1){
+        Address = address1;
+    }
+
+    public String getAddress(){
+        return Address;
+    }
     public String getName() {
         return Name;
     }
@@ -100,5 +119,18 @@ public class UserData1 {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public UserData1(String name, String email, String phoneNumber, String password, String time, String rollno, String year, String branch, String address, List<String> students_list) {
+        Name = name;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Password = password;
+        Time = time;
+        Rollno = rollno;
+        Year = year;
+        Branch = branch;
+        Address = address;
+        this.students_list = students_list;
     }
 }
