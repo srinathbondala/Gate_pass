@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDataFetched(ArrayList<notification_data> data) {
                 if (data != null && !data.isEmpty()) {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    adapterClass = new notificationAdapter(data,getApplicationContext());
+                    adapterClass = new notificationAdapter(data,getApplicationContext(),"general");
                     recyclerView.setAdapter(adapterClass);
                 } else {
                     Toast.makeText(getApplicationContext(), "No notifications found", Toast.LENGTH_SHORT).show();

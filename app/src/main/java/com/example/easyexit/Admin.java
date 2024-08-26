@@ -107,7 +107,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
             public void onDataFetched(ArrayList<notification_data> data) {
                 if (data != null && !data.isEmpty()) {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    adapterClass = new notificationAdapter(data,getApplicationContext());
+                    adapterClass = new notificationAdapter(data,getApplicationContext(),"admin");
                     recyclerView.setAdapter(adapterClass);
                 } else {
                     Toast.makeText(getApplicationContext(), "No notifications found", Toast.LENGTH_SHORT).show();
@@ -136,14 +136,13 @@ int no=1;
         }
         if(view==permit)
         {
-            i=new Intent(getApplicationContext(), Register.class);
+            Intent i=new Intent(getApplicationContext(), Register.class);
+            i.putExtra("data","admin");
             startActivity(i);
         }
         if(view == permitions)
         {
-            i = new Intent(getApplicationContext(), Attendance.class);
-            i.putExtra("data","student");
-            i.putExtra("faculty",userData.getName());
+            Intent i = new Intent(getApplicationContext(), Attendance.class);
             startActivity(i);
         }
         if(view == list)

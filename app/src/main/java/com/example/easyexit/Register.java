@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,14 +20,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
     EditText name,phno,email,pass,section,ryear,rollnumber;
     Button bt;
     ImageView imageView7;
+    TextView textView25;
     Intent i;
     ProgressDialog p;
     String emailPat = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -51,6 +59,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             section=(EditText) findViewById(R.id.section);
             rollnumber = (EditText) findViewById(R.id.rollno);
             bt = (Button) findViewById(R.id.submit1);
+            textView25 = findViewById(R.id.textView25);
             imageView7 = (ImageView) findViewById(R.id.imageView7);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().hide();
@@ -70,8 +79,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 databaseReference = mdata.getReference().child("Security data");
             String reg = getIntent().getStringExtra("data");
             if(reg!=null) {
-                if (reg.equals("student")) {
+                if(reg.equals("admin")){
+                    databaseReference = mdata.getReference().child("Faculty data");
+                    textView25.setText("Admin Registration");
+                }
+                else if (reg.equals("student")) {
                     databaseReference = mdata.getReference().child("User Information");
+                    textView25.setText("Student Registration");
                 }
             }
         }catch (Exception e){
@@ -126,8 +140,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             ud.setYear(f);
             ud.setRollno(g);
             String reg1 = getIntent().getStringExtra("faculty");
-            if(reg1!=null){
+            String reg2 = getIntent().getStringExtra("facultyNo");
+            if(reg1!=null && reg2!=null){
                 ud.setFaculty(reg1);
+                ud.setFacaltyno(reg2);
             }
             p.setMessage("Please wait Registering...");
             p.setTitle("Registration");
@@ -139,14 +155,49 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful())
                     {
-                        databaseReference.child(ud.getName()).setValue(ud).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        databaseReference.child(ud.getRollno()).setValue(ud).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                p.dismiss();
-                                Toast.makeText(getApplicationContext(),"Registration completed",Toast.LENGTH_SHORT).show();
-                                i= new Intent(getApplicationContext(), login.class);
-                                startActivity(i);
-                                finish();
+                                if(reg1!=null){
+                                    DatabaseReference db1 = mdata.getReference().child("Faculty data").child(ud.getName()).child("students_list");
+                                    db1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            List<String> students_list = new ArrayList<>();
+                                            if(snapshot.exists()) {
+                                                students_list = (List<String>) snapshot.getValue();
+                                            }
+                                            students_list.add(ud.getRollno());
+                                            db1.setValue("students_list").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        p.dismiss();
+                                                        Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
+                                                        i = new Intent(getApplicationContext(), login.class);
+                                                        startActivity(i);
+                                                        finish();
+                                                    }
+                                                    else{
+                                                        rollbackUserData(ud.getRollno());
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            rollbackUserData(ud.getRollno());
+                                        }
+                                    });
+                                }
+                                else {
+                                    p.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Registration completed", Toast.LENGTH_SHORT).show();
+                                    i = new Intent(getApplicationContext(), login.class);
+                                    startActivity(i);
+                                    finish();
+                                }
                             }
                         });
                     }
@@ -158,5 +209,18 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 }
             });
         }
+    }
+    private void rollbackUserData(String rollno) {
+        databaseReference.child(rollno).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Registration failed, rollback successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Rollback failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+                }
+                p.dismiss();
+            }
+        });
     }
 }

@@ -57,4 +57,10 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
             transaction.replace(R.id.main_profile, new permission_data()).addToBackStack(null).commit();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

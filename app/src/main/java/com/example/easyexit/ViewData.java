@@ -122,6 +122,9 @@ public class ViewData extends AppCompatActivity {
                 query = mdata.getReference().child("Out Data").child(String.valueOf(date)).orderByChild("rollno").equalTo(String.valueOf(reqroll));
                 //"2023-01-05"
                 query.addListenerForSingleValueEvent(valueEventListener);
+                if(lists.isEmpty()){
+                    list.setBackground(ContextCompat.getDrawable(ViewData.this,R.drawable.no_data));
+                }
             }
             catch (Exception e){
                 Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_LONG).show(); p.dismiss();}

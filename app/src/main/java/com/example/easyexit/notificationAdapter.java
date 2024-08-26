@@ -15,14 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class notificationAdapter extends RecyclerView.Adapter<notificationAdapter.ViewHolder> {
 
     ArrayList<notification_data> list;
+    private String role;
     Context context;
-    public notificationAdapter(ArrayList<notification_data> list,Context context){
+    public notificationAdapter(ArrayList<notification_data> list,Context context,String role){
         this.list= list;
         this.context=context;
+        this.role=role;
     }
     @NonNull
     @Override
@@ -39,6 +42,9 @@ public class notificationAdapter extends RecyclerView.Adapter<notificationAdapte
             holder.product_name.setText(pdf.getTitle() +"\n"+ "(" + pdf.getFaculty() + ")");
             Picasso.get().load(pdf.getUrl()).into(holder.product_poster);
             holder.description.setText(pdf.getDescription());
+            if(!Objects.equals(role, "admin")){
+                holder.menue.setVisibility(View.GONE);
+            }
             holder.menue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -1,5 +1,7 @@
 package com.example.easyexit;
 
+import android.util.Pair;
+
 import java.util.List;
 
 public class UserData1 {
@@ -14,9 +16,17 @@ public class UserData1 {
     private String Facaltyno;
     private String Faculty;
     private String Address;
-
+    private List<Pair<String,String>> remarks;  //need to think
     private List<Acadamic_Info> info;
     private List<String> students_list;
+
+    public List<String> getStudents_list() {
+        return students_list;
+    }
+
+    public void setStudents_list(List<String> students_list) {
+        this.students_list = students_list;
+    }
 
     public String getFacaltyno() {
         return Facaltyno;
