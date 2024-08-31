@@ -31,6 +31,19 @@ The app leverages **Firebase** services, specifically:
 - **Firebase Authentication**: Manages user authentication, allowing secure login for students, faculty, and security personnel.
 - **Firebase Cloud Messaging (FCM)**: Facilitates sending notifications from faculty to students.
 
+# Project Images
+
+Here are some screenshots of our  Application:
+
+<div style="display=flex-wrap">
+<img src="easy_exit/IMG-20240830-WA0010.jpg" alt="Sample Image" width="200" height="400"/>
+<img src="easy_exit/IMG-20240830-WA0011.jpg" alt="Sample Image" width="200" height="400"/>
+<img src="easy_exit/IMG-20240830-WA0006.jpg" alt="Sample Image" width="200" height="400"/>
+<img src="easy_exit/IMG-20240830-WA0008.jpg" alt="Sample Image" width="200" height="400"/>
+<img src="easy_exit/IMG-20240830-WA0007.jpg" alt="Sample Image" width="200" height="400"/>
+<img src="easy_exit/IMG-20240830-WA0009.jpg" alt="Sample Image" width="200" height="400"/>
+</div>
+
 ## Installation
 
 1. Clone the repository:
