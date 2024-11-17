@@ -285,4 +285,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+    @Override
+    protected void onDestroy() {
+        if (p != null && p.isShowing()) {
+            p.dismiss();
+        }
+        super.onDestroy();
+    }
 }

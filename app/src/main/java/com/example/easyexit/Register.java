@@ -110,7 +110,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         String d = name.getText().toString();
         String e = section.getText().toString();
         String f = ryear.getText().toString();
-        String g = rollnumber.getText().toString();
+        String g = rollnumber.getText().toString().toLowerCase();
         // String user=ud.getName();
         if(!b.matches(emailPat)&&!b.matches(emp))
         {
@@ -135,10 +135,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             ud.setPhoneNumber(a1);
             ud.setEmail(b);
             ud.setPassword(c);
-            ud.setName(d);
+            ud.setName(g);
             ud.setBranch(e);
             ud.setYear(f);
-            ud.setRollno(g);
+            ud.setRollno(d);
             String reg1 = getIntent().getStringExtra("faculty");
             String reg2 = getIntent().getStringExtra("facultyNo");
             if(reg1!=null && reg2!=null){

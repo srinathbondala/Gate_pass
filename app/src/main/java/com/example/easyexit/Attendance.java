@@ -1,5 +1,6 @@
 package com.example.easyexit;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
 
     private TextView qr_code,lit_qr,details,lit_details;
     ImageView back_menue;
+    private ImageView option2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +27,11 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
         details = findViewById(R.id.user_details);
         lit_details = findViewById(R.id.lit_details);
         back_menue = findViewById(R.id.back_menue);
+        option2 = (ImageView) findViewById(R.id.option2);
         qr_code.setOnClickListener(this);
         details.setOnClickListener(this);
         back_menue.setOnClickListener(this);
+        option2.setOnClickListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_profile, new Acadamic()).commit();
     }
 
@@ -44,7 +48,7 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
             lit_details.setBackgroundColor(0);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.swipe_in_left, R.anim.swipe_out_right);
-            transaction.replace(R.id.main_profile, new Acadamic()).addToBackStack(null).commit();
+            transaction.replace(R.id.main_profile, new Acadamic()).commit();
         }
         if(v==details)
         {
@@ -53,8 +57,12 @@ public class Attendance extends AppCompatActivity implements View.OnClickListene
             qr_code.setTextColor(Color.parseColor("#000000"));
             lit_qr.setBackgroundColor(0);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.swipe_in_left, R.anim.swipe_out_right);
-            transaction.replace(R.id.main_profile, new permission_data()).addToBackStack(null).commit();
+            transaction.setCustomAnimations(R.anim.swipe_in_right, R.anim.swipe_out_left);
+            transaction.replace(R.id.main_profile, new permission_data()).commit();
+        }
+        if(v==option2){
+            Intent i = new Intent(getApplicationContext(), Admin.class);
+            startActivity(i);
         }
     }
 

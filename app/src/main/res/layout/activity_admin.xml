@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:contentDescription="@string/todo"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -80,16 +81,15 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/material_dynamic_neutral95"
-        android:nestedScrollingEnabled="true"
+        android:nestedScrollingEnabled="false"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout14"
@@ -99,7 +99,10 @@
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/profile_card"
@@ -177,7 +180,9 @@
                 android:id="@+id/constraintLayout16"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout14">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout18"
@@ -484,6 +489,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="5dp"
+                            android:nestedScrollingEnabled="false"
                             android:paddingBottom="10dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -548,7 +554,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <ImageView
-                                android:id="@+id/notification_add"
+                                android:id="@+id/register_user"
                                 android:layout_width="30dp"
                                 android:layout_height="20dp"
                                 android:layout_marginEnd="10dp"
@@ -577,7 +583,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout

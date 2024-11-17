@@ -130,10 +130,14 @@ public class User extends AppCompatActivity implements View.OnClickListener {
        }
        if(view == mydata)
        {
-           Toast.makeText(getApplicationContext(), "settings", Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(), "view user data", Toast.LENGTH_SHORT).show();
+            i = new Intent(User.this, activityUserData.class);
+            startActivity(i);
        }
        if(view == viewAttendance){
            Toast.makeText(this, "Show User Attendance", Toast.LENGTH_SHORT).show();
+           i = new Intent(User.this, activityUserData.class);
+           startActivity(i);
        }
     }
 }

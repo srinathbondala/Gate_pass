@@ -4,6 +4,7 @@ import static com.example.easyexit.User.reqroll;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +36,7 @@ public class ViewData extends AppCompatActivity {
     ArrayList<UserData2> lists,rejList,waitList;
     AdapterClass adapterClass,reject_adapter,waiting_adapter;
     SearchView search;
-    ImageView imageView;
+    ImageView imageView,option2;
     RecyclerView list,reject_list,waiting_list;
 //    SwipeRefreshLayout swipeRefreshLayout;
     UserData2 ud;
@@ -56,6 +57,14 @@ public class ViewData extends AppCompatActivity {
         reject_list = (RecyclerView) findViewById(R.id.reject_recycle);
         waiting_list = (RecyclerView) findViewById(R.id.waiting_recycle);
         imageView = (ImageView) findViewById(R.id.imageView);
+        option2 = (ImageView) findViewById(R.id.imageView9);
+        option2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), Admin.class);
+                startActivity(i);
+            }
+        });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

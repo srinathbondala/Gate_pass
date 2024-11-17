@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,9 +22,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -38,10 +36,6 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
     private ImageView iv,permitions,list,explore,notification_view,notification_add,profile,reload;
    // RecyclerView list;
     Intent i;
-    FirebaseAuth mAuth;
-    FirebaseUser muser;
-    private FirebaseDatabase mdata;
-    DatabaseReference databaseReference;
     ProgressDialog p;
     private notificationAdapter adapterClass;
     private RecyclerView recyclerView;
@@ -62,7 +56,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         explore = (ImageView)findViewById(R.id.exploredata);
         permitions = (ImageView) findViewById(R.id.attedance);
         notification_view= (ImageView) findViewById(R.id.notification_view);
-        notification_add = (ImageView) findViewById(R.id.notification_add);
+        notification_add = (ImageView) findViewById(R.id.register_user);
         recyclerView = findViewById(R.id.recyclerView);
         reload = findViewById(R.id.reload);
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -107,7 +101,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
             public void onDataFetched(ArrayList<notification_data> data) {
                 if (data != null && !data.isEmpty()) {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    adapterClass = new notificationAdapter(data,getApplicationContext(),"admin");
+                    adapterClass = new notificationAdapter(data,Admin.this,"admin");
                     recyclerView.setAdapter(adapterClass);
                 } else {
                     Toast.makeText(getApplicationContext(), "No notifications found", Toast.LENGTH_SHORT).show();
@@ -175,10 +169,15 @@ int no=1;
         if(view == reload){
             if(no==1) {
                 no=0;
-                p.show();
+                ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 loadNotification();
-                p.dismiss();
-                no=1;
+                new Handler().postDelayed(() -> {
+                    progressDialog.dismiss();
+                    no = 1;
+                }, 1000);
             }
             else{
                 Toast.makeText(this, "Please Wait", Toast.LENGTH_SHORT).show();

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
     String emailpatt="[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String emp = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+\\.+[a-z]+";
     Intent i;
+    ImageView imageView4;
     public static String tname="",temail="",tbranch="",tphone="",tyear="",tfacaltyno="";
 
     FirebaseAuth mAuth;
@@ -58,9 +60,11 @@ public class login extends AppCompatActivity implements View.OnClickListener {
         title = (TextView)findViewById(R.id.textView11);
         loginbt = (Button) findViewById(R.id.button);
         text = (TextView) findViewById(R.id.textView4);
+        imageView4 = findViewById(R.id.imageView4);
         loginbt.setOnClickListener(this);
         text.setOnClickListener(this);
         p= new ProgressDialog(this);
+        imageView4.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
         muser = mAuth.getCurrentUser();
         mdata = FirebaseDatabase.getInstance();
@@ -245,6 +249,9 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                     }
                 });
             }
+        }
+        else if(view == imageView4){
+            finish();
         }
     }
 }

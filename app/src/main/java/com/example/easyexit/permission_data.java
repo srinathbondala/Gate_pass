@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 
 public class permission_data extends Fragment {
-    private Button add_student;
+    private ImageView add_student;
     UserData1 userData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

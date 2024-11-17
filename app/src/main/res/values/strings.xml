@@ -52,4 +52,14 @@
     <string name="report">Generate Report</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="semesters">
+        <item>I Year / I Sem</item>
+        <item>I Year / II Sem</item>
+        <item>II Year / I Sem</item>
+        <item>II Year / II Sem</item>
+        <item>III Year / I Sem</item>
+        <item>III Year / II Sem</item>
+        <item>IV Year / I Sem</item>
+        <item>IV Year / II Sem</item>
+    </string-array>
 </resources>

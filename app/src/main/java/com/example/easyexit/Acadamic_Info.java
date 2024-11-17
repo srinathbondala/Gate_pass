@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Acadamic_Info {
     private String Year;
-    private String semister;
+    private int semister;
     private List<subject_details> subjects;
     float SGPA;
     float CGPA;
     float attedance;
 
     public Acadamic_Info(){}
-    public Acadamic_Info(String year, String semister, List<subject_details> subjects, float SGPA, float CGPA, float attedance) {
+    public Acadamic_Info(String year, int semister, List<subject_details> subjects, float SGPA, float CGPA, float attedance) {
         Year = year;
         this.semister = semister;
         this.subjects = subjects;
@@ -28,11 +28,11 @@ public class Acadamic_Info {
         Year = year;
     }
 
-    public String getSemister() {
+    public int getSemister() {
         return semister;
     }
 
-    public void setSemister(String semister) {
+    public void setSemister(int semister) {
         this.semister = semister;
     }
 

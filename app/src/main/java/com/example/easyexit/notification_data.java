@@ -1,15 +1,16 @@
 package com.example.easyexit;
 
 public class notification_data {
-    String title,url,faculty,range,description;
+    String title,url,faculty,range,description,time;
 
     public notification_data(){}
-    public notification_data(String title, String url, String facultyId, String range, String description) {
+    public notification_data(String title, String url, String facultyId, String range, String description,String time) {
         this.title = title;
         this.url = url;
         this.faculty = facultyId;
         this.range = range;
         this.description = description;
+        this.time = time;
     }
 
     public String getTitle() {
@@ -46,6 +47,14 @@ public class notification_data {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public void setDescription(String description) {

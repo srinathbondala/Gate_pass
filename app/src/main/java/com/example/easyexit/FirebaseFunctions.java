@@ -14,6 +14,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FirebaseFunctions {
     FirebaseDatabase mdata;
@@ -75,8 +76,11 @@ public class FirebaseFunctions {
                                 } else if (key.equals("Local")) {
                                     for (DataSnapshot notificationSnapshot : ds.getChildren()) {
                                         notification_data i = notificationSnapshot.getValue(notification_data.class);
-                                        if (i != null && i.getFaculty() != null && i.getFaculty().equalsIgnoreCase(userName)) {
+                                        if (i != null && i.getFaculty() != null && i.getFaculty().equalsIgnoreCase(name)) {
                                             data.add(i);
+                                        }
+                                        else{
+                                            Toast.makeText(context, ""+userName+" "+i.getFaculty(), Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }
@@ -140,6 +144,46 @@ public class FirebaseFunctions {
         } catch (Exception e) {
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             callback.onDataFetched(data1);
+        }
+    }
+
+    // Get Students who are not assigned to any faculty
+    ArrayList<UserData1> userdata;
+    public void loadStudentData( Context context,String faculty,getStudentsDetails callback) {
+        try {
+            mdata = FirebaseDatabase.getInstance();
+            data1 = new ArrayList<>();
+            Query query = mdata.getReference().child("User Information");
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    userdata.clear();
+                    try {
+                        if(snapshot.exists()) {
+                            for (DataSnapshot studentSnapshot : snapshot.getChildren()) {
+                                UserData1 i = studentSnapshot.getValue(UserData1.class);
+                                if (i != null && i.getFaculty()==null || Objects.requireNonNull(i).getFaculty().isEmpty() || Objects.equals(i.getFaculty(), faculty)) {
+                                    userdata.add(i);
+                                }
+                            }
+                        }
+                        callback.onDataFetched(userdata);
+                    } catch (Exception e) {
+                        Log.d("error", "" + e.getMessage());
+                        callback.onDataFetched(userdata);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    callback.onDataFetched(userdata);
+                }
+            });
+
+        } catch (Exception e) {
+            Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            callback.onDataFetched(userdata);
         }
     }
 }

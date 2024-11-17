@@ -38,12 +38,17 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
+import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class notification_add extends AppCompatActivity implements View.OnClickListener{
     private Button submit;
+    private java.sql.Date date;
+    java.util.Date date1 = new java.util.Date();
+    String currentDateTimeString;
     private ConstraintLayout image_select_container;
     private static final int PICK_IMAGE_REQUEST = 1;
     private String url;
@@ -171,7 +176,10 @@ public class notification_add extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onSuccess(Uri uri) {
                         url= uri.toString();
-                        data1 = new notification_data(sname, url, scode, smode, sdisc);
+                        long millis = System.currentTimeMillis();
+                        date = new java.sql.Date(millis);
+                        currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                        data1 = new notification_data(sname, url, scode, smode, sdisc, String.valueOf(currentDateTimeString));
                         myRef.child(smode).child(sname.toLowerCase()).setValue(data1).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
